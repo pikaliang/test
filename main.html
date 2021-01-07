@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>牌照</title>
+    <script src="jquery-3.5.0.min.js"></script>
+    <script src="echarts.min.js"></script>
+    <style>
+        #main{
+            width: 1200px;
+            height: 800px;
+            float: right;
+        }
+        form{
+            float: left;
+            line-height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+    
+
+    <script>
+    $(function() {
+    $('#submit').click(function() {
+        var obj = {};
+        var str= $('form').serializeArray();
+        console.log("str",str)
+        let arr1 =[], arr2 = [];
+        str.forEach((item => {
+            arr1.push(item.name)
+            arr2.push(Number(item.value))
+        }))
+        console.log(arr1)
+        console.log(arr2)
+     // 基于准备好的dom，初始化echarts实例
+     var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        toolbox: {
+        show: true,
+        feature: {
+        dataZoom: {
+            yAxisIndex: "none"
+        },
+        dataView: {
+            readOnly: false
+        },
+        magicType: {
+            type: ["line", "bar"]
+        },
+        restore: {},
+        saveAsImage: {}
+        }
+  },
+        title: {
+            text: '牌照生产示意图 单位（片）'
+        },
+        tooltip: {
+            show:true
+        },
+        legend: {
+            data:['产量']
+        },
+        xAxis: {
+            data: arr1
+        },
+        yAxis: {
+            type: 'value',
+        },
+        series: [{
+            name: '产量',
+            type: 'bar',
+            data: arr2,
+            label: {
+                show: true,
+                position: 'inside'
+            },
+        }]
+    };
+    
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+});
+    });
+    </script>
+</body>
+</html>
