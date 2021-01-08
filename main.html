@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>牌照</title>
+    <script src="jquery-3.5.0.min.js"></script>
+    <script src="echarts.min.js"></script>
+    <script src="main.js"></script>
+    <style>
+        html{
+        font-size:100px;
+    }
+    *{
+        clear: both;
+        margin: 0;
+        padding: 0;
+    }
+        #main{
+            width: 8rem;
+            height: 16rem;
+          
+        }
+        form{
+            position:relative;
+            line-height: 0.3rem;
+            height: 5rem;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+ 
+        <form action="" >
+            <div> 小车：<input type="text" name="小车" ></div>
+            <div> 大车：<input type="text" name="大车" ></div>
+            <div> 警车：<input type="text" name="警车" ></div>
+            <div>挂车:<input type="text" name="挂车" ></div>
+            <div>摩托：<input type="text" name="摩托" ></div>
+            <div>农用：<input type="text" name="农用" ></div>
+            <div> 学车：<input type="text" name="学车" ></div>
+            <div>万国小车：<input type="text" name="万国小车" ></div>
+            <div>大同新能源小车：<input type="text" name="大同新能源小车" ></div>
+            <div>大同新能源大车：<input type="text" name="大同新能源大车" ></div>
+            <div>新能源小车:<input type="text" name="新能源小车" ></div>
+            <div>新能源大车：<input type="text" name="新能源大车" ></div>
+            <input type="button" value="生成示意图" id="submit">
+        </form> 
+
+        <div id="main"></div>
+    
+       
+    <script>
+    $(function() {
+    $('#submit').click(function() {
+        // $('form').css({display:'none'})
+        var obj = {};
+        var str= $('form').serializeArray();
+        console.log("str",str)
+        let arr1 =[], arr2 = [];
+        str.forEach((item => {
+            arr1.push(item.name)
+            arr2.push(Number(item.value))
+        }))
+        console.log(arr1)
+        console.log(arr2)
+     // 基于准备好的dom，初始化echarts实例
+     var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    option = {
+    tooltip : {
+        trigger: 'axis',
+        extraCssText:'transform: rotate(90deg)'
+    },    
+    xAxis: {
+        type: 'value', //数据
+        position :'top', //x 轴的位置【top bottom】
+        nameRotate :-90, //坐标轴名字旋转，角度值。
+        axisLabel :{  //坐标轴刻度标签的相关设置。
+           rotate : 90 //刻度标签旋转的角度，
+        },
+        scale: true, //是否是脱离 0 值比例
+    },
+    yAxis: {
+        type: 'category',
+        data: arr1,
+        inverse :'true', //是否是反向坐标轴。
+        axisLabel :{
+            rotate : -90
+        },
+    },
+    series: [{
+        data: arr2,
+        type: 'bar',
+        smooth: true, //是否平滑曲线显示
+        label: {
+                show: true,
+                position: 'inside',
+               fontSize:'20',
+               rotate:true,
+            },
+    }]
+};
+    
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.onresize=myChart.onresize;
+});
+    });
+    </script>
+</body>
+</html>

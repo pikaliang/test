@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+        (function($){
+            $.fn.serializeJson=function(filter){
+                var serializeObj={};
+                var array=this.serializeArray();
+                var str=this.serialize();
+                $(array).each(function(){
+                    if(this.name!=filter){
+                        if(serializeObj[this.name]){
+                            if($.isArray(serializeObj[this.name])){
+                                serializeObj[this.name].push(this.value);
+                            }else{
+                                serializeObj[this.name]=[serializeObj[this.name],this.value];
+                            }
+                        }else{
+                            serializeObj[this.name]=this.value;
+                        }
+                    }
+                });
+                return serializeObj;
+            };
+        })(jQuery);
+
+        function addP(){
+            var json=$("#myform").serializeJson("data");
+            //json转String
+            console.log(JSON.stringify(json));
+        }
+    </script>
+</head>
+<body>
+<form name="myform" id="myform" method="post">
+    <div>
+    姓名:<input type="text" name="pname" id="pname"/>
+    年龄:<input type="text" name="age" id="age"/>
+    兴趣:<textarea id="interest" name="interest"></textarea>
+    </div>
+    <div>
+        <button type="button" onclick="addP();">提交</button>
+    </div>
+</form>
+
+</body>
+</html>
