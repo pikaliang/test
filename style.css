@@ -1,0 +1,21 @@
+* {
+  clear: both;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  padding: .1rem;
+  width: calc(100% - .2rem);
+}
+.container form {
+  line-height: .3rem;
+}
+.canvas {
+  width: calc(100% - .2rem);
+  height: 15rem;
+  padding: .1rem;
+}
+.canvas #main {
+  width: inherit;
+  height: inherit;
+}
